@@ -284,36 +284,161 @@ const PenjumlahanGamePage = () => {
   }
 
   if (finished) {
-    const maxScore = quizQuestions.length * 20;
+    const totalQuestions = quizQuestions.length;
+    const correctAnswers = score / 20;
+    const maxScore = totalQuestions * 20;
     const pct = Math.round((score / maxScore) * 100);
-    const stars = pct >= 80 ? 3 : pct >= 60 ? 2 : pct >= 30 ? 1 : 0;
+    
+    // Get category based on correct answers
+    const getCategory = () => {
+      if (correctAnswers === 5) {
+        return {
+          title: "MASTER GALAKSI",
+          icon: "🚀",
+          color: "from-yellow-400 via-orange-400 to-red-500",
+          borderColor: "border-yellow-400/60",
+          glowColor: "shadow-[0_0_40px_rgba(255,180,0,0.4)]",
+          message: "Luar biasa! Seluruh meteor musuh musnah! Navigasi dan logika matematika kamu benar-benar sempurna. Kamu adalah Kapten Math Space sejati!",
+          stars: 5,
+        };
+      } else if (correctAnswers === 4) {
+        return {
+          title: "NAVIGATOR HANDAL",
+          icon: "🌟",
+          color: "from-cyan-400 via-blue-400 to-purple-500",
+          borderColor: "border-cyan-400/60",
+          glowColor: "shadow-[0_0_35px_rgba(0,200,255,0.4)]",
+          message: "Hebat, Sobat Numatik! Kamu berhasil membersihkan sebagian besar jalur meteor. Hanya satu yang terlewat, tetap fokus di misi berikutnya!",
+          stars: 4,
+        };
+      } else if (correctAnswers === 3) {
+        return {
+          title: "PENJELAJAH ORBIT",
+          icon: "🛸",
+          color: "from-green-400 via-emerald-400 to-teal-500",
+          borderColor: "border-green-400/60",
+          glowColor: "shadow-[0_0_30px_rgba(0,255,150,0.3)]",
+          message: "Bagus! Kamu berhasil menembus sabuk asteroid. Sedikit lagi menuju puncak, yuk asah lagi pemahaman konsep dasar matematikanya!",
+          stars: 3,
+        };
+      } else if (correctAnswers === 2) {
+        return {
+          title: "CADET PEMULA",
+          icon: "🌙",
+          color: "from-blue-400 via-indigo-400 to-violet-500",
+          borderColor: "border-blue-400/60",
+          glowColor: "shadow-[0_0_25px_rgba(100,150,255,0.3)]",
+          message: "Wah, kapal terkena guncangan meteor! Jangan menyerah, Sobat. Ayo pelajari kembali langkah-langkah pengerjaannya agar pesawatmu lebih tangguh.",
+          stars: 2,
+        };
+      } else {
+        return {
+          title: "MISI PELATIHAN",
+          icon: "💫",
+          color: "from-slate-400 via-gray-400 to-zinc-500",
+          borderColor: "border-slate-400/60",
+          glowColor: "shadow-[0_0_20px_rgba(150,150,150,0.3)]",
+          message: "Misi gagal! Tapi jangan sedih, ini saatnya latihan lebih keras lagi. Ayo kita mulai sesi training untuk memperbaiki kemampuan menembakmu!",
+          stars: 1,
+        };
+      }
+    };
+    
+    const category = getCategory();
+    
     return (
       <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <img src={spaceBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/80" />
         <Starfield />
         <QuizNavigation />
-        <div className="relative z-10 text-center animate-slide-up">
-          <h1 className="font-display text-3xl font-bold text-primary text-glow-cyan mb-4">MISI SELESAI!</h1>
-          <div className="bg-card/80 backdrop-blur border border-border rounded-xl p-8 max-w-sm mx-auto mb-6">
-            <div className="flex justify-center gap-2 mb-4">
-              {[1, 2, 3].map((s) => (
-                <span key={s} className={`text-4xl transition-all duration-500 ${s <= stars ? "opacity-100 scale-100" : "opacity-30 scale-75"}`}>&#11088;</span>
+        
+        {/* Floating Decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[10%] left-[8%] animate-float-slow">
+            <img src={meteorImg} alt="" className="w-10 h-10 opacity-40" />
+          </div>
+          <div className="absolute top-[15%] right-[12%] animate-float-medium">
+            <img src={meteorImg} alt="" className="w-8 h-8 opacity-30" />
+          </div>
+          <div className="absolute bottom-[15%] left-[5%] animate-float-fast">
+            <img src={meteorImg} alt="" className="w-12 h-12 opacity-35" />
+          </div>
+          <div className="absolute bottom-[20%] right-[8%] animate-float-slow">
+            <img src={meteorImg} alt="" className="w-9 h-9 opacity-30" />
+          </div>
+        </div>
+        
+        <div className="relative z-10 text-center animate-slide-up px-4 max-w-lg mx-auto">
+          {/* Mission Complete Header */}
+          <h1 className="font-display text-2xl md:text-3xl font-bold text-cyan-400 text-glow-cyan mb-6">MISI SELESAI!</h1>
+          
+          {/* Result Card */}
+          <div className={`bg-card/80 backdrop-blur-md border-2 ${category.borderColor} rounded-2xl p-6 md:p-8 mb-6 ${category.glowColor}`}>
+            {/* Category Icon */}
+            <div className="text-5xl md:text-6xl mb-3 animate-bounce">{category.icon}</div>
+            
+            {/* Score Display */}
+            <div className="mb-4">
+              <p className="font-display text-lg text-muted-foreground mb-1">{correctAnswers} / {totalQuestions}</p>
+              <h2 className={`font-display text-2xl md:text-3xl font-black bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}>
+                {category.title}
+              </h2>
+            </div>
+            
+            {/* Stars Display */}
+            <div className="flex justify-center gap-1 mb-4">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <span 
+                  key={s} 
+                  className={`text-2xl md:text-3xl transition-all duration-500 ${s <= category.stars ? "opacity-100 scale-100" : "opacity-20 scale-75"}`}
+                  style={{ animationDelay: `${s * 100}ms` }}
+                >
+                  {s <= category.stars ? "⭐" : "☆"}
+                </span>
               ))}
             </div>
-            <p className="font-display text-5xl font-black text-accent text-glow-accent mb-2">{score}</p>
-            <p className="text-muted-foreground text-sm font-body">dari {maxScore} poin ({pct}%)</p>
-            <div className="mt-4 h-3 bg-muted rounded-full overflow-hidden">
-              <div className="h-full gradient-neon rounded-full transition-all duration-1000" style={{ width: `${pct}%` }} />
+            
+            {/* Score Points */}
+            <div className="bg-background/50 rounded-xl px-4 py-3 mb-4">
+              <p className="font-display text-3xl md:text-4xl font-black text-accent text-glow-accent">{score}</p>
+              <p className="text-muted-foreground text-xs font-body">dari {maxScore} poin ({pct}%)</p>
             </div>
-            <p className="mt-4 font-display text-sm text-foreground">
-              {pct >= 80 ? "Luar biasa!" : pct >= 60 ? "Bagus!" : "Pelajari lagi materinya!"}
+            
+            {/* Progress Bar */}
+            <div className="h-2 bg-muted rounded-full overflow-hidden mb-4">
+              <div 
+                className={`h-full bg-gradient-to-r ${category.color} rounded-full transition-all duration-1000`} 
+                style={{ width: `${pct}%` }} 
+              />
+            </div>
+            
+            {/* Message */}
+            <p className="font-body text-sm text-foreground/90 leading-relaxed italic">
+              "{category.message}"
             </p>
           </div>
-          <div className="flex gap-4 justify-center">
-            <button onClick={handleStart} className="font-display text-sm px-6 py-2 rounded-lg bg-primary text-primary-foreground cursor-pointer hover:opacity-90">Ulangi</button>
-            <button onClick={() => navigate("/math-game-arena/kelas-7/bilangan-bulat")} className="font-display text-sm px-6 py-2 rounded-lg bg-muted text-foreground cursor-pointer hover:opacity-90">Kembali</button>
-            <button onClick={() => navigate("/menu")} className="font-display text-sm px-6 py-2 rounded-lg bg-muted text-foreground cursor-pointer hover:opacity-90">Menu</button>
+          
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button 
+              onClick={handleStart} 
+              className="font-display text-sm px-8 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold cursor-pointer hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(0,200,255,0.3)]"
+            >
+              Ulangi Misi
+            </button>
+            <button 
+              onClick={() => navigate("/math-game-arena/kelas-7/bilangan-bulat")} 
+              className="font-display text-sm px-8 py-3 rounded-xl bg-card border border-border text-foreground font-bold cursor-pointer hover:bg-muted transition-colors"
+            >
+              Kembali
+            </button>
+            <button 
+              onClick={() => navigate("/menu")} 
+              className="font-display text-sm px-8 py-3 rounded-xl bg-card border border-border text-foreground font-bold cursor-pointer hover:bg-muted transition-colors"
+            >
+              Menu
+            </button>
           </div>
         </div>
       </div>
