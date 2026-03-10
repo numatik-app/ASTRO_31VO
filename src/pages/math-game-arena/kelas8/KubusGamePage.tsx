@@ -287,7 +287,7 @@ const KubusGamePage = () => {
       <div className="absolute bottom-[12%] z-10 transition-all duration-500 ease-out" style={{ left: `${shipX}%`, transform: "translateX(-50%)" }}>
         <div className="relative">
           <img src={spaceshipImg} alt="spaceship" className="w-16 h-20 md:w-20 md:h-24 drop-shadow-[0_0_20px_rgba(0,180,255,0.4)]" style={{ mixBlendMode: "screen", background: "transparent" }} />
-          <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-8 animate-flame">
+          <div className="absolute -bottom-2 w-6 h-8 animate-flame" style={{ left: "38%", transform: "translateX(-50%)" }}>
             <div className="w-full h-full rounded-full bg-gradient-to-t from-primary via-primary/50 to-transparent blur-sm" />
           </div>
         </div>
