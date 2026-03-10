@@ -224,14 +224,14 @@ const OlimpiadeBilanganRasionalPage = () => {
           <div className="space-y-4 animate-slide-up">
             {latihanDasar.map((soal) => (
               <div key={soal.no} className="bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4">
-                <p className="font-body text-sm text-white mb-3 whitespace-pre-wrap">
-                  <span className="text-accent font-bold">{soal.no}.</span> {soal.soal}
-                </p>
+                <div className="font-body text-sm text-white mb-3 whitespace-pre-wrap">
+                  <span className="text-accent font-bold">{soal.no}.</span> {renderWithLatex(soal.soal)}
+                </div>
                 {soal.options.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {soal.options.map((opt, j) => (
                       <div key={j} className="font-body text-xs text-white/70 bg-muted/30 rounded-lg px-3 py-2">
-                        {opt}
+                        {renderWithLatex(opt)}
                       </div>
                     ))}
                   </div>
@@ -246,14 +246,14 @@ const OlimpiadeBilanganRasionalPage = () => {
           <div className="space-y-4 animate-slide-up">
             {latihanOlimpiade.map((soal) => (
               <div key={soal.no} className="bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4">
-                <p className="font-body text-sm text-white mb-3 whitespace-pre-wrap">
-                  <span className="text-accent font-bold">{soal.no}.</span> {soal.soal}
-                </p>
+                <div className="font-body text-sm text-white mb-3 whitespace-pre-wrap">
+                  <span className="text-accent font-bold">{soal.no}.</span> {renderWithLatex(soal.soal)}
+                </div>
                 {soal.options.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {soal.options.map((opt, j) => (
                       <div key={j} className="font-body text-xs text-white/70 bg-muted/30 rounded-lg px-3 py-2">
-                        {opt}
+                        {renderWithLatex(opt)}
                       </div>
                     ))}
                   </div>
