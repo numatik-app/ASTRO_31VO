@@ -24,6 +24,8 @@ import PengaturanPage from "./pages/PengaturanPage";
 import TentangAplikasiPage from "./pages/TentangAplikasiPage";
 import KalkulatorScientificPage from "./pages/KalkulatorScientificPage";
 import VideoPembelajaranPage from "./pages/VideoPembelajaranPage";
+import KumpulanRumusPage from "./pages/KumpulanRumusPage";
+import KonversiSatuanPage from "./pages/KonversiSatuanPage";
 import NotFound from "./pages/NotFound";
 
 // Latihan Mandiri Pages
@@ -177,6 +179,8 @@ const AppInner = () => {
       <Route path="/quiz" element={<QuizPage />} />
       <Route path="/referensi" element={<ReferensiPage />} />
       <Route path="/kalkulator-scientific" element={<KalkulatorScientificPage />} />
+      <Route path="/kumpulan-rumus" element={<KumpulanRumusPage />} />
+      <Route path="/konversi-satuan" element={<KonversiSatuanPage />} />
       <Route path="/video-pembelajaran" element={<VideoPembelajaranPage />} />
       <Route path="/donasi" element={<DonasiPage />} />
       <Route path="/biografi" element={<BiografiPage />} />

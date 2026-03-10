@@ -324,6 +324,13 @@ const KalkulatorScientificPage = () => {
     return <span>{value}</span>;
   };
 
+  // Vibration function
+  const vibrate = () => {
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
+  };
+
   // Button component for calculator
   const CalcButton = ({ 
     children, 
@@ -339,21 +346,28 @@ const KalkulatorScientificPage = () => {
     subLabel?: string;
     subLabelColor?: string;
     disabled?: boolean;
-  }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={`relative flex flex-col items-center justify-center rounded-lg font-semibold transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
-    >
-      {subLabel && (
-        <span className={`absolute -top-3.5 left-1/2 -translate-x-1/2 text-[9px] font-medium ${subLabelColor} whitespace-nowrap`}>
-          {subLabel}
-        </span>
-      )}
-      {children}
-    </button>
-  );
+  }) => {
+    const handleClick = () => {
+      vibrate();
+      onClick();
+    };
+    
+    return (
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={disabled}
+        className={`relative flex flex-col items-center justify-center rounded-lg font-semibold transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      >
+        {subLabel && (
+          <span className={`absolute -top-3.5 left-1/2 -translate-x-1/2 text-[9px] font-medium ${subLabelColor} whitespace-nowrap`}>
+            {subLabel}
+          </span>
+        )}
+        {children}
+      </button>
+    );
+  };
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-start gradient-space overflow-hidden">
