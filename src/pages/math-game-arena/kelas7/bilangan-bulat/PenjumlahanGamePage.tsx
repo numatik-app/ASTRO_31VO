@@ -169,21 +169,113 @@ const PenjumlahanGamePage = () => {
     return (
       <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <img src={spaceBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/80" />
         <Starfield />
         <QuizNavigation />
-        <div className="relative z-10 text-center animate-slide-up">
-          <h1 className="font-display text-4xl md:text-5xl font-black gradient-neon bg-clip-text text-transparent mb-2">MATH SPACE</h1>
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-accent text-glow-accent mb-6">PENJUMLAHAN BILANGAN BULAT</h2>
-          <p className="text-muted-foreground text-sm mb-8 font-body max-w-md mx-auto px-4">
-            Tembak meteor yang berisi jawaban benar! Klik meteor untuk mengarahkan pesawat dan menembak.
-          </p>
-          <button onClick={handleStart} className="font-display text-xl px-12 py-4 rounded-xl bg-accent text-accent-foreground font-bold hover:scale-105 transition-transform duration-300 cursor-pointer box-glow-cyan">
-            MULAI
+        
+        {/* Floating Meteors Decoration */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Meteor 1 - Top Left */}
+          <div className="absolute top-[10%] left-[8%] animate-float-slow">
+            <img src={meteorImg} alt="" className="w-12 h-12 md:w-16 md:h-16 opacity-60 drop-shadow-[0_0_15px_rgba(255,100,50,0.5)]" />
+          </div>
+          {/* Meteor 2 - Top Right */}
+          <div className="absolute top-[15%] right-[12%] animate-float-medium">
+            <img src={meteorImg} alt="" className="w-10 h-10 md:w-14 md:h-14 opacity-50 drop-shadow-[0_0_12px_rgba(255,80,40,0.5)]" />
+          </div>
+          {/* Meteor 3 - Mid Left */}
+          <div className="absolute top-[40%] left-[5%] animate-float-fast">
+            <img src={meteorImg} alt="" className="w-8 h-8 md:w-12 md:h-12 opacity-40 drop-shadow-[0_0_10px_rgba(255,60,30,0.5)]" />
+          </div>
+          {/* Meteor 4 - Mid Right */}
+          <div className="absolute top-[35%] right-[6%] animate-float-slow">
+            <img src={meteorImg} alt="" className="w-14 h-14 md:w-18 md:h-18 opacity-55 drop-shadow-[0_0_18px_rgba(255,90,45,0.5)]" />
+          </div>
+          {/* Meteor 5 - Bottom Left */}
+          <div className="absolute bottom-[20%] left-[10%] animate-float-medium">
+            <img src={meteorImg} alt="" className="w-9 h-9 md:w-13 md:h-13 opacity-45 drop-shadow-[0_0_12px_rgba(255,70,35,0.5)]" />
+          </div>
+          {/* Meteor 6 - Bottom Right */}
+          <div className="absolute bottom-[25%] right-[8%] animate-float-fast">
+            <img src={meteorImg} alt="" className="w-11 h-11 md:w-15 md:h-15 opacity-50 drop-shadow-[0_0_14px_rgba(255,85,40,0.5)]" />
+          </div>
+          
+          {/* Spaceship Decoration */}
+          <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 animate-hover-ship">
+            <img src={spaceshipImg} alt="" className="w-20 h-24 md:w-28 md:h-32 opacity-70 drop-shadow-[0_0_25px_rgba(0,200,255,0.4)]" />
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-10 animate-flame">
+              <div className="w-full h-full rounded-full bg-gradient-to-t from-cyan-400 via-cyan-400/50 to-transparent blur-sm" />
+            </div>
+          </div>
+        </div>
+
+        <div className="relative z-10 text-center animate-slide-up px-4">
+          {/* Main Title */}
+          <div className="mb-2">
+            <h1 className="font-display text-3xl md:text-5xl font-black tracking-wider">
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(0,200,255,0.5)]">
+                MATH GAME ARENA
+              </span>
+            </h1>
+          </div>
+          
+          {/* NUMATIK Subtitle */}
+          <div className="mb-6">
+            <h2 className="font-display text-4xl md:text-6xl font-black tracking-[0.2em]">
+              <span className="bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,180,0,0.6)]">
+                NUMATIK
+              </span>
+            </h2>
+          </div>
+
+          {/* Topic Badge */}
+          <div className="inline-block mb-8">
+            <div className="px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/40 backdrop-blur-sm">
+              <span className="font-display text-sm md:text-base font-bold text-cyan-300 tracking-wide">
+                PENJUMLAHAN BILANGAN BULAT
+              </span>
+            </div>
+          </div>
+
+          {/* Instructions Box */}
+          <div className="bg-card/70 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-6 max-w-md mx-auto mb-8 shadow-[0_0_30px_rgba(0,200,255,0.15)]">
+            <h3 className="font-display text-lg font-bold text-cyan-400 mb-4 flex items-center justify-center gap-2">
+              <span className="text-xl">&#128640;</span> CARA BERMAIN <span className="text-xl">&#128640;</span>
+            </h3>
+            <ul className="text-left space-y-3 font-body text-sm text-foreground/90">
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-xs">1</span>
+                <span>Baca soal matematika yang muncul di bawah layar</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-xs">2</span>
+                <span>Cari jawaban yang <strong className="text-cyan-300">BENAR</strong> pada meteor yang jatuh</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-xs">3</span>
+                <span><strong className="text-yellow-300">KLIK</strong> meteor tersebut untuk menembak!</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-xs">4</span>
+                <span>Setiap jawaban benar mendapat <strong className="text-green-400">+20 poin</strong></span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Pulsing Start Button */}
+          <button 
+            onClick={handleStart} 
+            className="relative font-display text-xl md:text-2xl px-14 py-5 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 text-white font-black tracking-wider cursor-pointer shadow-[0_0_40px_rgba(0,200,255,0.5)] hover:shadow-[0_0_60px_rgba(0,200,255,0.7)] transition-shadow duration-300 animate-pulse-scale"
+          >
+            <span className="relative z-10 flex items-center gap-3">
+              <span>&#9658;</span> MULAI GAME <span>&#9658;</span>
+            </span>
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 opacity-0 hover:opacity-100 transition-opacity duration-300" />
           </button>
-          <div className="mt-6">
-            <button onClick={() => navigate("/math-game-arena/kelas-7/bilangan-bulat")} className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
-              Kembali ke Bilangan Bulat
+          
+          <div className="mt-8">
+            <button onClick={() => navigate("/math-game-arena/kelas-7/bilangan-bulat")} className="text-sm text-muted-foreground hover:text-cyan-400 transition-colors cursor-pointer font-body">
+              &larr; Kembali ke Bilangan Bulat
             </button>
           </div>
         </div>
