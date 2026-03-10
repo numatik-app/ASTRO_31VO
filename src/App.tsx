@@ -111,6 +111,7 @@ import LingkaranMGAK8Page from "./pages/math-game-arena/kelas8/LingkaranPage";
 import GarisSinggungLingkaranMGAK8Page from "./pages/math-game-arena/kelas8/GarisSinggungLingkaranPage";
 import BangunRuangSisiDatarMGAK8Page from "./pages/math-game-arena/kelas8/BangunRuangSisiDatarPage";
 import KubusGamePage from "./pages/math-game-arena/kelas8/KubusGamePage";
+import PenjumlahanBilanganBulatGameMGAK7Page from "./pages/math-game-arena/kelas7/bilangan-bulat/PenjumlahanGamePage";
 
 // Math Game Arena - Kelas 9 Topic Pages
 import BilanganBerpangkatMGAK9Page from "./pages/math-game-arena/kelas9/BilanganBerpangkatPage";
@@ -264,6 +265,7 @@ const AppInner = () => {
       
       {/* Math Game Arena - Kelas 7 Topic Routes */}
       <Route path="/math-game-arena/kelas-7/bilangan-bulat" element={<BilanganBulatMGAK7Page />} />
+      <Route path="/math-game-arena/kelas-7/bilangan-bulat/penjumlahan" element={<PenjumlahanBilanganBulatGameMGAK7Page />} />
       <Route path="/math-game-arena/kelas-7/bilangan-rasional" element={<BilanganRasionalMGAK7Page />} />
       <Route path="/math-game-arena/kelas-7/aljabar" element={<AljabarMGAK7Page />} />
       <Route path="/math-game-arena/kelas-7/plsv-ptlsv" element={<PLSVPtLSVMGAK7Page />} />
