@@ -6,7 +6,7 @@ import { playPopSound } from "@/hooks/useAudio";
 
 const subtopics = [
   { name: "PENJUMLAHAN BILANGAN BULAT", path: "/materi-matematika/kelas-7/bilangan-bulat/penjumlahan" },
-  { name: "PENGURANGAN BILANGAN BULAT", path: null },
+  { name: "PENGURANGAN BILANGAN BULAT", path: "/materi-matematika/kelas-7/bilangan-bulat/pengurangan" },
   { name: "PERKALIAN BILANGAN BULAT", path: null },
   { name: "PEMBAGIAN BILANGAN BULAT", path: null },
   { name: "OPERASI HITUNG CAMPURAN BILANGAN BULAT", path: null },
