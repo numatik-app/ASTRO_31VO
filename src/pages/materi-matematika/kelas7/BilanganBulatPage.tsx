@@ -5,16 +5,23 @@ import { BookOpen, ChevronRight } from "lucide-react";
 import { playPopSound } from "@/hooks/useAudio";
 
 const subtopics = [
-  "PENJUMLAHAN BILANGAN BULAT",
-  "PENGURANGAN BILANGAN BULAT",
-  "PERKALIAN BILANGAN BULAT",
-  "PEMBAGIAN BILANGAN BULAT",
-  "OPERASI HITUNG CAMPURAN BILANGAN BULAT",
-  "KPK DAN FPB",
+  { name: "PENJUMLAHAN BILANGAN BULAT", path: "/materi-matematika/kelas-7/bilangan-bulat/penjumlahan" },
+  { name: "PENGURANGAN BILANGAN BULAT", path: null },
+  { name: "PERKALIAN BILANGAN BULAT", path: null },
+  { name: "PEMBAGIAN BILANGAN BULAT", path: null },
+  { name: "OPERASI HITUNG CAMPURAN BILANGAN BULAT", path: null },
+  { name: "KPK DAN FPB", path: null },
 ];
 
 const BilanganBulatPage = () => {
   const navigate = useNavigate();
+
+  const handleSubtopicClick = (subtopic: typeof subtopics[0]) => {
+    playPopSound();
+    if (subtopic.path) {
+      navigate(subtopic.path);
+    }
+  };
 
   return (
     <div className="relative min-h-screen flex flex-col items-center gradient-space overflow-hidden">
@@ -30,15 +37,16 @@ const BilanganBulatPage = () => {
         <div className="flex flex-col gap-3 animate-slide-up">
           {subtopics.map((subtopic, i) => (
             <button
-              key={subtopic}
-              onClick={() => playPopSound()}
-              className="group flex items-center gap-4 bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4
-                hover:border-primary/60 transition-all duration-300
-                cursor-pointer text-left animate-slide-up"
+              key={subtopic.name}
+              onClick={() => handleSubtopicClick(subtopic)}
+              className={`group flex items-center gap-4 bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4
+                transition-all duration-300
+                cursor-pointer text-left animate-slide-up ${subtopic.path ? 'hover:border-primary/60' : 'opacity-60'}`}
               style={{ animationDelay: `${i * 0.03}s` }}
             >
               <ChevronRight className="w-4 h-4 text-primary shrink-0 group-hover:translate-x-1 transition-transform" />
-              <span className="font-body text-sm text-white">{subtopic}</span>
+              <span className="font-body text-sm text-white">{subtopic.name}</span>
+              {!subtopic.path && <span className="text-xs text-white/40 ml-auto">Segera hadir</span>}
             </button>
           ))}
         </div>
