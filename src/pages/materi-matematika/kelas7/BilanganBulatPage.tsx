@@ -10,7 +10,7 @@ const subtopics = [
   { name: "PERKALIAN BILANGAN BULAT", path: "/materi-matematika/kelas-7/bilangan-bulat/perkalian" },
   { name: "PEMBAGIAN BILANGAN BULAT", path: "/materi-matematika/kelas-7/bilangan-bulat/pembagian" },
   { name: "OPERASI HITUNG CAMPURAN BILANGAN BULAT", path: "/materi-matematika/kelas-7/bilangan-bulat/operasi-campuran" },
-  { name: "KPK DAN FPB", path: null },
+  { name: "KPK DAN FPB", path: "/materi-matematika/kelas-7/bilangan-bulat/kpk-fpb" },
 ];
 
 const BilanganBulatPage = () => {
