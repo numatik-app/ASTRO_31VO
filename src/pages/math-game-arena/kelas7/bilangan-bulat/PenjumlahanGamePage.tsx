@@ -54,7 +54,7 @@ interface LaserState {
 
 const PenjumlahanGamePage = () => {
   const navigate = useNavigate();
-  const { playLaser, playExplosion, playCorrect, startBgMusic, stopBgMusic, startEngineSound, stopEngineSound } = useAudio();
+  const { playLaser, playExplosion, playCorrect, startBgMusic, stopBgMusic } = useAudio();
 
   const [started, setStarted] = useState(false);
   const [currentQ, setCurrentQ] = useState(0);
@@ -92,7 +92,6 @@ const PenjumlahanGamePage = () => {
     setScore(0);
     setFinished(false);
     startBgMusic();
-    startEngineSound();
     setupMeteors(0);
   };
 
@@ -135,7 +134,6 @@ const PenjumlahanGamePage = () => {
               } else {
                 setFinished(true);
                 stopBgMusic();
-                stopEngineSound();
               }
             }, 1500);
           }
@@ -150,9 +148,8 @@ const PenjumlahanGamePage = () => {
     return () => {
       cancelAnimationFrame(animRef.current);
       stopBgMusic();
-      stopEngineSound();
     };
-  }, [stopBgMusic, stopEngineSound]);
+  }, [stopBgMusic]);
 
   const [floatOffset, setFloatOffset] = useState(0);
   useEffect(() => {
@@ -207,8 +204,8 @@ const PenjumlahanGamePage = () => {
           <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 animate-hover-ship">
             <div className="relative flex flex-col items-center">
               <img src={spaceshipImg} alt="" className="w-20 h-24 md:w-28 md:h-32 opacity-70 drop-shadow-[0_0_25px_rgba(0,200,255,0.4)]" />
-              {/* Centered flame */}
-              <div className="absolute -bottom-2 w-10 h-12 md:w-12 md:h-14 animate-flame" style={{ left: "50%", transform: "translateX(-50%)" }}>
+              {/* Flame - shifted slightly left */}
+              <div className="absolute -bottom-2 w-10 h-12 md:w-12 md:h-14 animate-flame" style={{ left: "45%", transform: "translateX(-50%)" }}>
                 <div className="w-full h-full flex flex-col items-center">
                   <div className="w-4 md:w-5 h-full rounded-full bg-gradient-to-t from-cyan-300 via-cyan-400 to-transparent blur-[2px] opacity-80" />
                   <div className="absolute w-full h-full rounded-full bg-gradient-to-t from-cyan-500/60 via-blue-400/30 to-transparent blur-md" />
@@ -532,10 +529,10 @@ const PenjumlahanGamePage = () => {
       {laser && laser.active && (
         <div className="absolute z-15 pointer-events-none" style={{
           left: `${laser.fromX}%`, bottom: "18%", transform: "translateX(-50%)",
-          height: `${laser.progress * 55}%`, width: 6,
-          background: "linear-gradient(to top, hsl(50, 100%, 55%), hsl(50, 100%, 80%, 0.3))",
-          boxShadow: "0 0 15px hsl(50, 100%, 55%), 0 0 30px hsl(50, 100%, 55%, 0.5)",
-          borderRadius: 3, transformOrigin: "bottom center",
+          height: `${laser.progress * 55}%`, width: 12,
+          background: "linear-gradient(to top, hsl(50, 100%, 60%), hsl(50, 100%, 85%), hsl(50, 100%, 90%, 0.4))",
+          boxShadow: "0 0 20px hsl(50, 100%, 60%), 0 0 40px hsl(50, 100%, 55%), 0 0 60px hsl(50, 100%, 50%, 0.4)",
+          borderRadius: 6, transformOrigin: "bottom center",
         }} />
       )}
 
@@ -543,8 +540,8 @@ const PenjumlahanGamePage = () => {
       <div className="absolute bottom-[12%] z-10 transition-all duration-500 ease-out" style={{ left: `${shipX}%`, transform: "translateX(-50%)" }}>
         <div className="relative flex flex-col items-center">
           <img src={spaceshipImg} alt="spaceship" className="w-16 h-20 md:w-20 md:h-24 drop-shadow-[0_0_20px_rgba(0,180,255,0.4)]" style={{ mixBlendMode: "screen", background: "transparent" }} />
-          {/* Centered flame/thruster effect */}
-          <div className="absolute -bottom-3 w-8 h-10 md:w-10 md:h-12 animate-flame" style={{ left: "50%", transform: "translateX(-50%)" }}>
+          {/* Flame/thruster effect - shifted slightly left */}
+          <div className="absolute -bottom-3 w-8 h-10 md:w-10 md:h-12 animate-flame" style={{ left: "45%", transform: "translateX(-50%)" }}>
             <div className="w-full h-full flex flex-col items-center">
               {/* Inner bright core */}
               <div className="w-3 md:w-4 h-full rounded-full bg-gradient-to-t from-cyan-300 via-cyan-400 to-transparent blur-[2px] opacity-90" />
