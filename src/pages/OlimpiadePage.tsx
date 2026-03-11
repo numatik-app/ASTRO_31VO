@@ -59,7 +59,7 @@ const OlimpiadePage = () => {
 
         <div className="flex flex-col gap-3 animate-slide-up">
           {olimpiadeTopics.map((topik, i) => {
-            const hasContent = topik === "Bilangan Bulat" || topik === "Bilangan Rasional" || topik === "Bilangan Berpangkat" || topik === "Bilangan Irasional";
+            const hasContent = topik === "Bilangan Bulat" || topik === "Bilangan Rasional" || topik === "Bilangan Berpangkat" || topik === "Bilangan Irasional" || topik === "KPK dan FPB" || topik === "Modulo - Sisa Pembagian" || topik === "Himpunan" || topik === "Relasi dan Fungsi" || topik === "Perbandingan" || topik === "Aljabar";
             return (
               <button
                 key={topik}
@@ -73,6 +73,18 @@ const OlimpiadePage = () => {
                     navigate("/olimpiade/bilangan-berpangkat");
                   } else if (topik === "Bilangan Irasional") {
                     navigate("/olimpiade/bilangan-irasional");
+                  } else if (topik === "KPK dan FPB") {
+                    navigate("/olimpiade/kpk-fpb");
+                  } else if (topik === "Modulo - Sisa Pembagian") {
+                    navigate("/olimpiade/modulo");
+                  } else if (topik === "Himpunan") {
+                    navigate("/olimpiade/himpunan");
+                  } else if (topik === "Relasi dan Fungsi") {
+                    navigate("/olimpiade/relasi-fungsi");
+                  } else if (topik === "Perbandingan") {
+                    navigate("/olimpiade/perbandingan");
+                  } else if (topik === "Aljabar") {
+                    navigate("/olimpiade/aljabar");
                   }
                 }}
                 className="group flex items-center gap-4 bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4
