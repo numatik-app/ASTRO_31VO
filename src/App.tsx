@@ -17,6 +17,7 @@ import OlimpiadePage from "./pages/OlimpiadePage";
 import OlimpiadeBilanganBulatPage from "./pages/OlimpiadeBilanganBulatPage";
 import OlimpiadeBilanganRasionalPage from "./pages/OlimpiadeBilanganRasionalPage";
 import OlimpiadeBilanganBerpangkatPage from "./pages/OlimpiadeBilanganBerpangkatPage";
+import OlimpiadeBilanganIrasionalPage from "./pages/OlimpiadeBilanganIrasionalPage";
 import TKAPage from "./pages/TKAPage";
 import PapanPeringkatPage from "./pages/PapanPeringkatPage";
 import BankSoalPage from "./pages/BankSoalPage";
@@ -147,6 +148,7 @@ import PembagianPecahanMMK7Page from "./pages/materi-matematika/kelas7/bilangan-
 import BentukDesimalMMK7Page from "./pages/materi-matematika/kelas7/bilangan-rasional/BentukDesimalPage";
 import PerkalianBentukDesimalMMK7Page from "./pages/materi-matematika/kelas7/bilangan-rasional/PerkalianBentukDesimalPage";
 import PembagianBentukDesimalMMK7Page from "./pages/materi-matematika/kelas7/bilangan-rasional/PembagianBentukDesimalPage";
+import PembulatanBentukDesimalMMK7Page from "./pages/materi-matematika/kelas7/bilangan-rasional/PembulatanBentukDesimalPage";
 import AljabarMMK7Page from "./pages/materi-matematika/kelas7/AljabarPage";
 import PLSVPtLSVMMK7Page from "./pages/materi-matematika/kelas7/PLSVPtLSVPage";
 import PerbandinganMMK7Page from "./pages/materi-matematika/kelas7/PerbandinganPage";
@@ -205,6 +207,7 @@ const AppInner = () => {
       <Route path="/olimpiade/bilangan-bulat" element={<OlimpiadeBilanganBulatPage />} />
       <Route path="/olimpiade/bilangan-rasional" element={<OlimpiadeBilanganRasionalPage />} />
       <Route path="/olimpiade/bilangan-berpangkat" element={<OlimpiadeBilanganBerpangkatPage />} />
+      <Route path="/olimpiade/bilangan-irasional" element={<OlimpiadeBilanganIrasionalPage />} />
       <Route path="/tka" element={<TKAPage />} />
       <Route path="/papan-peringkat" element={<PapanPeringkatPage />} />
       <Route path="/bank-soal" element={<BankSoalPage />} />
@@ -330,6 +333,7 @@ const AppInner = () => {
       <Route path="/materi-matematika/kelas-7/bilangan-rasional/bentuk-desimal" element={<BentukDesimalMMK7Page />} />
       <Route path="/materi-matematika/kelas-7/bilangan-rasional/perkalian-bentuk-desimal" element={<PerkalianBentukDesimalMMK7Page />} />
       <Route path="/materi-matematika/kelas-7/bilangan-rasional/pembagian-bentuk-desimal" element={<PembagianBentukDesimalMMK7Page />} />
+      <Route path="/materi-matematika/kelas-7/bilangan-rasional/pembulatan-bentuk-desimal" element={<PembulatanBentukDesimalMMK7Page />} />
       <Route path="/materi-matematika/kelas-7/aljabar" element={<AljabarMMK7Page />} />
       <Route path="/materi-matematika/kelas-7/plsv-ptlsv" element={<PLSVPtLSVMMK7Page />} />
       <Route path="/materi-matematika/kelas-7/perbandingan" element={<PerbandinganMMK7Page />} />
