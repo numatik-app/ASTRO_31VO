@@ -383,8 +383,9 @@ const BentukDesimalPage = () => {
                       <div className="space-y-2 font-body text-sm text-white/80">
                         <p><strong>Langkah 1:</strong> Karena 11 sulit diubah menjadi 10, 100, atau 1.000, gunakan pembagian</p>
                         <p><strong>Langkah 2:</strong> Lakukan pembagian <InlineMath math="7 \div 11" /></p>
-                        <div className="bg-slate-900/50 rounded p-3 font-mono text-xs overflow-x-auto">
-                          <pre className="text-green-400 whitespace-pre">{"     0, 6 3 6 3\n    ─────────────\n11 ) 7, 0 0 0 0\n     0          \n     ─\n     7 0        \n     6 6        \n     ───\n       4 0      \n       3 3      \n       ───\n         7 0    \n         6 6    \n         ───\n           4 0  \n           3 3  \n           ───\n             7  (sisa, berulang)"}</pre>
+                        <div className="bg-slate-900/50 rounded p-3">
+                          <BlockMath math="7 \div 11 = 0,6363..." />
+                          <p className="text-xs text-green-400 mt-2 text-center">Pola berulang: 63</p>
                         </div>
                         <p><strong>Langkah 3:</strong> Hasil pembagian menunjukkan pola berulang 63</p>
                         <div className="bg-slate-900/50 rounded p-3">
