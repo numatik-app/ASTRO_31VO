@@ -1,0 +1,238 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Starfield from "@/components/Starfield";
+import PageNavigation from "@/components/PageNavigation";
+import { Trophy, ChevronDown, ChevronUp } from "lucide-react";
+import { playPopSound } from "@/hooks/useAudio";
+import 'katex/dist/katex.min.css';
+import { InlineMath } from 'react-katex';
+
+const renderWithLatex = (text: string) => {
+  const parts = text.split(/(\$[^$]+\$)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('$') && part.endsWith('$')) {
+      const latex = part.slice(1, -1);
+      return <InlineMath key={index} math={latex} />;
+    }
+    return <span key={index}>{part}</span>;
+  });
+};
+
+const materiSection = {
+  title: "MATERI - FUNGSI KUADRAT",
+  sections: [
+    {
+      heading: "A. Menggambar Grafik Fungsi Kuadrat",
+      content: `Fungsi kuadrat adalah fungsi yang berbentuk $y = ax^2 + bx + c$ dengan $a \\neq 0$
+
+Gambaran Grafik Fungsi kuadrat:
+$D > 0$ : Grafik memotong sumbu-x di dua titik
+$D = 0$ : Grafik menyinggung sumbu-x
+$D < 0$ : Grafik tidak memotong sumbu-x
+dengan $D = b^2 - 4ac$
+
+Definit positif : $a > 0$ dan $D < 0$
+Definit negatif : $a < 0$ dan $D < 0$`
+    },
+    {
+      heading: "B. Menggambar Grafik Fungsi Persamaan Kuadrat (4 Langkah)",
+      content: `1) Titik potong sumbu x adalah titik yang didapat ketika nilai $y = 0$
+
+2) Titik potong sumbu y adalah titik yang didapat ketika nilai $x = 0$
+
+3) Sumbu simetri pada fungsi kuadrat $y = ax^2 + bx + c$ adalah sumbu yang letaknya simetris terhadap grafik (berada pada sumbu x) bernilai $x_p = -\\frac{b}{2a}$
+
+4) Nilai optimum disebut juga titik puncak atau titik balik maksimum/minimum adalah titik tertinggi atau terendah dari fungsi tersebut (berada pada sumbu y) bernilai $y_p = -\\frac{D}{4a}$`
+    },
+    {
+      heading: "C. Menyusun Fungsi Kuadrat",
+      content: `1. Diketahui titik puncak $(x_p, y_p)$ dan melalui titik $(x, y)$.
+$y - y_p = a(x - x_p)^2 + y_p$
+
+2. Memotong sumbu-x di $(x_1, 0)$ dan $(x_2, 0)$ dan melalui titik $(x, y)$.
+$y = a(x - x_1)(x - x_2)$
+
+3. Grafik melalui tiga titik.
+$y = ax^2 + bx + c$`
+    },
+  ]
+};
+
+const latihanDasar = [
+  { no: 1, soal: "Fungsi $f(x) = 3(x - 1)^2 + 5$ dapat dinyatakan dalam bentuk $f(x) = ax^2 + bx + c$. Nilai b dan c berturut-turut adalah ...", options: ["A. -6 dan 8", "B. -6 dan 2", "C. -3 dan 8", "D. 3 dan 2"] },
+  { no: 2, soal: "Jika titik $(3, a)$ terletak pada kurva $f(x) = 2x^2 - x + 4$, maka nilai $a$ = ...", options: ["A. 19", "B. 17", "C. 16", "D. 13"] },
+  { no: 3, soal: "Grafik fungsi $f(x) = x^2 - 2x - 3$ dipotong oleh garis $y = 5$. Salah satu absis titik potongnya adalah ...", options: ["A. 1", "B. 2", "C. 4", "D. 5"] },
+  { no: 4, soal: "Fungsi $f(x) = x^2 - x - 12$ memotong sumbu X di titik $(p, 0)$ dan $(q, 0)$. Jika $p > q$, maka nilai p dan q berturut-turut adalah ...", options: ["A. 4 dan 3", "B. 4 dan -3", "C. 3 dan -4", "D. 3 dan 2"] },
+  { no: 5, soal: "Titik potong kurva $f(x) = x^2 + 4x + 7$ dengan sumbu Y adalah ...", options: ["A. (0, 7)", "B. (0, 3)", "C. (-2, 0)", "D. (-3, 3)"] },
+  { no: 6, soal: "Kurva yang mempunyai sumbu simetri di $x = 1$ adalah ...", options: ["A. (Gambar kurva)", "B. (Gambar kurva)", "C. (Gambar kurva)", "D. (Gambar kurva)"] },
+  { no: 7, soal: "Sumbu simetri dari kurva $f(x) = x^2 + 6x + 5$ adalah ...", options: ["A. $x = -3$", "B. $x = -35$", "C. $x = 52$", "D. $x = 3$"] },
+  { no: 8, soal: "Sumbu simetri pada fungsi $f(x) = (x + 6)^2 - 5$ adalah ...", options: ["A. $x = 6$", "B. $x = 5$", "C. $x = -3$", "D. $x = -6$"] },
+  { no: 9, soal: "Nilai minimum fungsi $f(x) = 3(x + 2)^2 + 5$ adalah ...", options: ["A. 17", "B. 8", "C. 5", "D. -7"] },
+  { no: 10, soal: "Nilai maksimum fungsi $f(x) = -x^2 + 6x + 7$ adalah ...", options: ["A. 18", "B. 16", "C. 12", "D. 9"] },
+  { no: 11, soal: "Koordinat titik balik pada kurva $f(x) = x^2 - 10x + 29$ adalah ...", options: ["A. (-5, 5)", "B. (-5, 4)", "C. (5, -4)", "D. (5, 4)"] },
+  { no: 12, soal: "Diketahui fungsi $f(x) = -x^2 + bx + c$ mempunyai koordinat titik balik minimum $(-5, 11)$. Nilai b dan c berturut-turut adalah ...", options: ["A. -10 dan 14", "B. -10 dan 36", "C. 10 dan 14", "D. 10 dan 36"] },
+  { no: 13, soal: "Grafik dari fungsi $f(x) = x^2 - 2x - 15$ adalah ...", options: ["A. (Gambar grafik)", "B. (Gambar grafik)", "C. (Gambar grafik)", "D. (Gambar grafik)"] },
+  { no: 14, soal: "Perhatikan gambar! Gambar tersebut adalah grafik fungsi kuadrat ...", options: ["A. $y = x^2 + 2x + 3$", "B. $y = x^2 - 2x - 3$", "C. $y = -x^2 + 2x - 3$", "D. $y = -x^2 - 2x + 3$", "E. $y = -x^2 + 2x + 3$"] },
+  { no: 15, soal: "Perhatikan grafik $f(x) = ax^2 + bx + c$. Nilai a, b dan c yang mungkin adalah ...", options: ["A. $a < 0$, $b > 0$, $c > 0$", "B. $a < 0$, $b > 0$, $c < 0$", "C. $a < 0$, $b < 0$, $c > 0$", "D. $a > 0$, $b < 0$, $c < 0$"] },
+  { no: 16, soal: "Fungsi $f(x) = ax^2 + bx + c$ mempunyai $a < 0$, $b > 0$ dan $c < 0$. Grafik yang sesuai adalah ...", options: ["A. (Gambar grafik)", "B. (Gambar grafik)", "C. (Gambar grafik)", "D. (Gambar grafik)"] },
+  { no: 17, soal: "Nilai diskriminan pada fungsi $f(x) = -x^2 + 2x + 15$ adalah ...", options: ["A. 64", "B. 56", "C. 36", "D. 25"] },
+  { no: 18, soal: "Diantara fungsi kuadrat berikut yang grafiknya memotong sumbu x di dua titik adalah ...", options: ["A. $f(x) = x^2 + 6x + 9$", "B. $f(x) = x^2 - x + 3$", "C. $f(x) = x^2 + x - 20$", "D. $f(x) = x^2 - 2x + 1$"] },
+  { no: 19, soal: "Perhatikan fungsi kuadrat berikut:\n(i) $f(x) = x^2 - 16$\n(ii) $f(x) = x^2 - 25$\n(iii) $f(x) = x^2 + x - 20$\n(iv) $f(x) = x^2 - 10x + 25$\nFungsi kuadrat yang grafiknya menyinggung sumbu x adalah ...", options: ["A. (i)", "B. (ii)", "C. (iii)", "D. (iv)"] },
+  { no: 20, soal: "Supaya grafik fungsi $f(x) = x^2 + (m - 1)x - (m - 4) = 0$ menyinggung sumbu x, maka nilai $m$ = ...", options: ["A. 5", "B. 3", "C. 2", "D. -3"] },
+  { no: 21, soal: "Persamaan grafik fungsi kuadrat yang mempunyai titik balik maksimum $(1, 2)$ dan melalui titik $(2, 3)$ adalah ...", options: ["A. $y = x^2 - 2x + 1$", "B. $y = x^2 - 2x + 3$", "C. $y = x^2 + 2x - 1$", "D. $y = x^2 + 2x + 1$", "E. $y = x^2 - 2x - 3$"] },
+  { no: 22, soal: "Grafik $y = px^2 + (p + 2)x - p + 4$ memotong sumbu X di dua titik. Batas-batas nilai p yang memenuhi adalah ...", options: ["A. $p < -2$ atau $p > -\\frac{2}{5}$", "B. $p < \\frac{2}{5}$ atau $p > 2$", "C. $p < 2$ atau $p > 10$", "D. $\\frac{2}{5} < p < 2$", "E. $2 < p < 10$"] },
+  { no: 23, soal: "Fungsi kuadrat $f(x) = (k + 3)x^2 - 2kx + (k - 2)$ merupakan fungsi definit positif. Nilai k yang memenuhi adalah ...", options: ["A. $k > -3$", "B. $k < 6$", "C. $k < -3$", "D. $k > 6$", "E. $-3 < k < 6$"] },
+  { no: 24, soal: "Sebuah peluru ditembakkan vertikal memiliki rumus ketinggian per detik, $h(t) = (120t - t^2)$ meter. Tinggi tembakan maksimum peluru itu adalah ...", options: ["A. 4.800 m", "B. 4.500 m", "C. 3.600 m", "D. 3.000 m"] },
+  { no: 25, soal: "Sebuah bola digelindingkan pada bidang miring dari atas ke bawah. Tinggi bola tiap detiknya memiliki rumus $h(t) = 80 + 2t - t^2$ (dalam cm). Bola akan menyentuh tanah pada detik ke- ...", options: ["A. 5", "B. 8", "C. 10", "D. 16"] },
+  { no: 26, soal: "Sebuah persegi panjang mempunyai luas 42 cm² dan kelilingnya 34 cm. Lebar persegi panjang itu adalah ...", options: ["A. 2 cm", "B. 3 cm", "C. 5 cm", "D. 14 cm"] },
+  { no: 27, soal: "Perhatikan gambar berikut. Untuk $x \\in$ bilangan asli, luas maksimum bidang yang diarsir adalah ...", options: ["A. 30 cm²", "B. 36 cm²", "C. 41 cm²", "D. 48 cm²"] },
+  { no: 28, soal: "Grafik fungsi $g(x) = x^2 + 3$ dapat diperoleh dari grafik $f(x) = x^2$. Cara yang tepat adalah ...", options: ["A. Menggeser $f(x)$ 3 satuan ke kanan", "B. Menggeser $f(x)$ 3 satuan ke kiri", "C. Menggeser $f(x)$ 3 satuan ke bawah", "D. Menggeser $f(x)$ 3 satuan ke atas"] },
+  { no: 29, soal: "Grafik fungsi $L(x) = x^2 + 2x - 3$ dapat diperoleh dari grafik $K(x) = (x + 1)^2$. Cara yang tepat adalah ...", options: ["A. Menggeser $K(x)$, 4 satuan ke kiri", "B. Menggeser $K(x)$, 3 satuan ke kiri", "C. Menggeser $K(x)$, 4 satuan ke bawah", "D. Menggeser $K(x)$, 3 satuan ke bawah"] },
+];
+
+const latihanOlimpiade = [
+  { no: 1, soal: "OSN Matematika 2010 Tingkat Kota\nFungsi $f(x) = x^2 - ax$ mempunyai grafik berikut. Grafik fungsi $g(x) = x^2 + ax + 5$ adalah ...", options: ["A. (Gambar grafik)", "B. (Gambar grafik)", "C. (Gambar grafik)", "D. (Gambar grafik)"] },
+  { no: 2, soal: "OSN Matematika 2010 Tingkat Kota\nJika $P(x) = Q(x) \\cdot (x - a)$, Dimana $P(x)$ dan $Q(x)$ polinom, maka:", options: ["A. $P(a) \\neq 0$", "B. $x - a$ bukan faktor dari $P(x)$", "C. Kurva $y = P(x)$ memotong sumbu x di titik $(a, 0)$", "D. Kurva $y = P(x)$ memotong sumbu x di titik $(-a, 0)$", "E. Titik potong terhadap sumbu x tidak dapat ditentukan"] },
+  { no: 3, soal: "OSN Matematika 2014 Tingkat Kota\nDiketahui persamaan kurva $y = x^3 + 4x^2 + 5x + 1$ dan $y = x^2 + 2x - 1$. Jika kurva digambarkan pada bidang yang sama, maka banyak titik potong kedua kurva tersebut adalah ...", options: ["A. 0", "B. 1", "C. 2", "D. 3"] },
+  { no: 4, soal: "OSN Matematika 2015 Tingkat Kota\nParabola $y = ax^2 + bx + c$ melalui titik $(-2, 6)$ dan mempunyai sumbu simetri $x = -1$. Jika a, b dan c merupakan bilangan genap positif berurutan, maka nilai $a + b + c$ adalah ...", options: [] },
+  { no: 5, soal: "OSN Matematika 2016 Tingkat Kota\nBanyak bilangan bulat $k > -20$ sehingga parabola $y = x^2 + k$ tidak berpotongan dengan lingkaran $x^2 + y^2 = 9$ adalah ...", options: ["A. 20", "B. 19", "C. 11", "D. 10"] },
+  { no: 6, soal: "OSN Matematika 2018 Tingkat Kota\nJika $0 < a < 1$ dan grafik fungsi kuadrat $y = a(x - 1)^2 + 2a$ berada di bawah grafik fungsi $y = (a^2 + 2a)(x + 1) - 2a(2a + 1)$, maka nilai x yang memenuhi adalah ...", options: ["A. $0 < x < 3$", "B. $a < x < 3$", "C. $a + 1 < x < 3$", "D. $3 < x < 3 + a$"] },
+  { no: 7, soal: "OSN Matematika 2019 Tingkat Kota\nParabola $y = ax^2 + bx + c$ mempunyai puncak di $(p, p)$ dan titik potong dengan sumbu y di $(0, -p)$ jika $p \\neq 0$, maka nilai b adalah ...", options: ["A. 1", "B. 2", "C. 4", "D. 8"] },
+  { no: 8, soal: "OSN Matematika 2021 Tingkat Kota\nP adalah titik minimum grafik fungsi kuadrat yang melalui $(2a, 0)$, $(4a, 0)$, dan $(0, 3a)$ dengan $a > 0$. Agar jarak P ke sumbu-x lebih dari 3 satuan, maka nilai a adalah ...", options: ["A. $0 < a < 3$", "B. $0 < a < 8$", "C. $a > 3$", "D. $a > 8$"] },
+  { no: 9, soal: "OSN Matematika 2023 Tingkat Kota\nA bergerak mendekati B yang berjarak 55 km dengan kecepatan 5 km/jam. Satu jam kemudian, B bergerak menuju A dengan kecepatan x km/jam, dengan x adalah waktu (dalam jam) ketika B berangkat sampai ketemu A. Grafik yang menyatakan hubungan antara waktu (t) yang dibutuhkan A bertemu B dengan jarak (s) A dan B adalah ...", options: ["A. (Gambar grafik)", "B. (Gambar grafik)", "C. (Gambar grafik)", "D. (Gambar grafik)"] },
+  { no: 10, soal: "OSN Matematika 2023 Tingkat Kota\nDiketahui suatu konstanta $k > 0$. Garis l dengan persamaan $y = 2kx + 3k^2$ memotong parabola dengan persamaan $y = x^2$ pada titik P di kuadran I dan titik Q di kuadran II. Jika koordinat O adalah $(0, 0)$ dan luas daerah segitiga POQ adalah 48 satuan luas, maka kemiringan garis l adalah ...", options: ["A. $\\frac{2}{3}$", "B. 2", "C. $\\frac{4}{3}$", "D. 4"] },
+];
+
+const OlimpiadeFungsiKuadratPage = () => {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<"materi" | "dasar" | "olimpiade">("materi");
+  const [expandedSections, setExpandedSections] = useState<number[]>([0]);
+
+  const toggleSection = (idx: number) => {
+    playPopSound();
+    setExpandedSections(prev =>
+      prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
+    );
+  };
+
+  return (
+    <div className="relative min-h-screen flex flex-col items-center gradient-space overflow-hidden">
+      <Starfield />
+      <PageNavigation />
+      <div className="relative z-10 max-w-3xl w-full px-4 py-10">
+        <Trophy className="w-10 h-10 text-accent mx-auto mb-3" />
+        <h1 className="font-display text-xl md:text-2xl font-bold text-primary text-glow-cyan mb-2 text-center">
+          OLIMPIADE - FUNGSI KUADRAT
+        </h1>
+        <p className="text-white/50 text-xs text-center mb-6 font-body">Irawan Sutiawan, M.Pd</p>
+
+        <div className="flex gap-2 justify-center mb-6">
+          {[
+            { key: "materi" as const, label: "Materi" },
+            { key: "dasar" as const, label: "Latihan Dasar" },
+            { key: "olimpiade" as const, label: "Latihan Olimpiade" },
+          ].map(tab => (
+            <button
+              key={tab.key}
+              onClick={() => { playPopSound(); setActiveTab(tab.key); }}
+              className={`font-display text-xs px-4 py-2 rounded-lg border cursor-pointer transition-all ${
+                activeTab === tab.key
+                  ? "bg-accent text-accent-foreground border-accent"
+                  : "bg-card/80 text-white/70 border-border hover:border-accent/40"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "materi" && (
+          <div className="space-y-3 animate-slide-up">
+            {materiSection.sections.map((section, idx) => (
+              <div key={idx} className="bg-card/80 backdrop-blur border border-border rounded-xl overflow-hidden">
+                <button
+                  onClick={() => toggleSection(idx)}
+                  className="w-full flex items-center justify-between px-5 py-4 cursor-pointer text-left"
+                >
+                  <span className="font-display text-sm text-accent font-bold">{section.heading}</span>
+                  {expandedSections.includes(idx) ? (
+                    <ChevronUp className="w-4 h-4 text-accent shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-white/50 shrink-0" />
+                  )}
+                </button>
+                {expandedSections.includes(idx) && (
+                  <div className="px-5 pb-4">
+                    <div className="font-body text-sm text-white/80 whitespace-pre-wrap leading-relaxed">
+                      {section.content.split('\n').map((line, i) => (
+                        <div key={i} className="mb-1">{renderWithLatex(line)}</div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "dasar" && (
+          <div className="space-y-4 animate-slide-up">
+            {latihanDasar.map((soal) => (
+              <div key={soal.no} className="bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4">
+                <div className="font-body text-sm text-white mb-3 whitespace-pre-wrap">
+                  <span className="text-accent font-bold">{soal.no}.</span> {renderWithLatex(soal.soal)}
+                </div>
+                {soal.options.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {soal.options.map((opt, j) => (
+                      <div key={j} className="font-body text-xs text-white/70 bg-muted/30 rounded-lg px-3 py-2">
+                        {renderWithLatex(opt)}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "olimpiade" && (
+          <div className="space-y-4 animate-slide-up">
+            {latihanOlimpiade.map((soal) => (
+              <div key={soal.no} className="bg-card/80 backdrop-blur border border-border rounded-xl px-5 py-4">
+                <div className="font-body text-sm text-white mb-3 whitespace-pre-wrap">
+                  <span className="text-accent font-bold">{soal.no}.</span> {soal.soal.split('\n').map((line, lineIdx) => (
+                    <span key={lineIdx}>
+                      {lineIdx > 0 && <br />}
+                      {renderWithLatex(line)}
+                    </span>
+                  ))}
+                </div>
+                {soal.options.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {soal.options.map((opt, j) => (
+                      <div key={j} className="font-body text-xs text-white/70 bg-muted/30 rounded-lg px-3 py-2">
+                        {renderWithLatex(opt)}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => { playPopSound(); navigate("/olimpiade"); }}
+            className="text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer font-body"
+          >
+            ← Kembali ke Olimpiade
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OlimpiadeFungsiKuadratPage;
